@@ -1,76 +1,72 @@
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons";
 import { faGithub, faLinkedin } from "@fortawesome/free-brands-svg-icons";
 import IconLink from "@/components/iconLink";
-import { useEffect } from "react";
 import moment from "moment";
 import "moment-timezone";
+import { useEffect } from "react";
 
-export async function getServerSideProps(context: any) {
-	let ip;
-	const { req } = context;
-
-	if (req.headers["x-forwarded-for"]) {
-		ip = req.headers["x-forwarded-for"].split(",")[0];
-	} else if (req.headers["x-real-ip"]) {
-		ip = req.connection.remoteAddress;
-	} else {
-		ip = req.connection.remoteAddress;
-	}
-
-	if (!ip) {
-		ip = null;
-	}
+export async function getStaticProps() {
 	return {
-		props: {
-			ip,
-		},
+		props: {},
 	};
 }
 
-//@ts-ignore
-export default function Home({ ip }) {
+const getIp = async (): Promise<string | null> => {
+	try {
+		const response = await fetch("https://api.ipify.org/?format=json");
+		if (response.ok) {
+			const data = await response.json();
+			return data.ip;
+		} else {
+			console.error("could not fetch ip", response.status);
+			return null;
+		}
+	} catch (error) {
+		console.error("could not fetch ip:", error);
+		return null;
+	}
+};
+
+const getDateTime = (): { date: string; time: string } => {
+	const now = moment().tz("Pacific/Auckland");
+	const localDate = now.format("DD/MM/YY");
+	const localTime = now.format("HH:mm");
+
+	return { date: localDate, time: localTime };
+};
+
+const postVisit = async (): Promise<void> => {
+	let ip = await getIp();
+
+	const postData = {
+		method: "POST",
+		headers: { "Content-Type": "application/json" },
+		body: JSON.stringify({
+			data: {
+				ip: ip,
+				date: getDateTime().date,
+				time: getDateTime().time,
+			},
+		}),
+	};
+	try {
+		const response = await fetch(
+			process.env.NEXT_PUBLIC_POST_REQUEST as string,
+			postData
+		);
+		await response.json();
+
+		if (!response.ok) {
+			throw new Error("could not post visit data");
+		}
+	} catch (error: any) {
+		console.log(error);
+	}
+};
+
+export default function Home() {
 	let currentDate: Date = new Date();
 	let year: number = currentDate.getFullYear();
-
-	const getYear = (): number => {
-		return year;
-	};
-
-	const getDateTime = (): { date: string; time: string } => {
-		const now = moment().tz("Pacific/Auckland");
-		const localDate = now.format("DD/MM/YY");
-		const localTime = now.format("HH:mm");
-
-		return { date: localDate, time: localTime };
-	};
-
-	const postVisit = async (): Promise<void> => {
-		const postData = {
-			method: "POST",
-			headers: { "Content-Type": "application/json" },
-			body: JSON.stringify({
-				data: {
-					ip: ip,
-					date: getDateTime().date,
-					time: getDateTime().time,
-				},
-			}),
-		};
-		try {
-			const response = await fetch(
-				process.env.NEXT_PUBLIC_POST_REQUEST as string,
-				postData
-			);
-			await response.json();
-
-			if (!response.ok) {
-				throw new Error("could not post visit data");
-			}
-		} catch (error: any) {
-			console.log(error);
-		}
-	};
-
 	useEffect(() => {
 		postVisit();
 	}, []);
@@ -113,7 +109,7 @@ export default function Home({ ip }) {
 						</div>
 					</div>
 					<footer className="mt-2 text-sm text-gray-300">
-						Copyright © {getYear()}, Matt Mazer
+						Copyright © {year}, Matt Mazer
 					</footer>
 				</div>
 			</div>

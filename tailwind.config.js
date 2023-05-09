@@ -5,7 +5,7 @@ module.exports = {
 		extend: {
 			margin: {
 				toph: "32vh",
-				tops: "23vh",
+				tops: "15vh",
 				leftw: "1vw",
 			},
 

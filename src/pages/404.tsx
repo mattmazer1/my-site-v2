@@ -1,12 +1,18 @@
-import { GetStaticProps } from "next";
+import { useEffect } from "react";
+import { useRouter } from "next/router";
 
-export const getStaticProps: GetStaticProps = async () => {
-	return {
-		redirect: {
-			destination: "/",
-			permanent: true,
-		},
-	};
+const Custom404: React.FC = () => {
+	const router = useRouter();
+
+	useEffect(() => {
+		router.push("/");
+	}, []);
+
+	return (
+		<div className="flex items-center justify-center h-screen">
+			<div className="text-2xl">404 not found</div>
+		</div>
+	);
 };
 
-export default getStaticProps;
+export default Custom404;

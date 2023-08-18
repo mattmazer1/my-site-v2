@@ -13,7 +13,7 @@ const IconLink: React.FC<iconProps> = ({ link, icon }) => {
 		<a href={link} target="_blank" rel="noopener noreferrer">
 			<FontAwesomeIcon
 				icon={icon}
-				className="hover:text-gray-400 ml-2 mr-2"
+				className="hover:text-gray-400 hover:scale-125 ml-2 mr-2"
 			></FontAwesomeIcon>
 		</a>
 	);

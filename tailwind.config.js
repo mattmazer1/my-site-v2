@@ -4,8 +4,8 @@ module.exports = {
 	theme: {
 		extend: {
 			margin: {
-				toph: "32vh",
-				tops: "15vh",
+				toph: "30vh",
+				tops: "30vh",
 				leftw: "1vw",
 			},
 

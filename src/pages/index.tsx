@@ -65,52 +65,25 @@ const postVisit = async (): Promise<void> => {
 };
 
 export default function Home() {
-	let currentDate: Date = new Date();
-	let year: number = currentDate.getFullYear();
 	useEffect(() => {
 		postVisit();
 	}, []);
 
 	return (
 		<>
-			<div className=" flex flex-col flex-wrap items-center sm:mt-toph mt-tops lg:ml-leftw ml-10 mr-10 mb-14">
-				<div className="ml-justify-start">
-					<h1 className="sm:text-4xl text-3xl">Hey! I'm Matt.</h1>
+			<div className=" flex flex-col flex-wrap justify-center items-center sm:mt-toph mt-tops">
+				<h1 className="sm:text-4xl text-3xl">Matt Mazer</h1>
 
-					<div>
-						<h2 className="mt-5 sm:text-lg text-md">
-							{" "}
-							I'm a software developer.
-						</h2>
-						<h3 className="mt-5 sm:text-lg text-md max-w-5xl">
-							I have a passion for building software that can be used to solve
-							problems.
-							<br /> My skills and interests lies in backend technologies and
-							system design. Currently, I am looking for a full time position in
-							backend development. I can also do full stack development. <br />I
-							last worked on a p2p encrypted communications protocol at Sylo.
-							Feel free to contact me!
-						</h3>
-						<div className="flex flex-row flex-wrap justify-start content-center mt-3 text-2xl">
-							<IconLink
-								link={"https://github.com/mattmazer1"}
-								icon={faGithub}
-							/>
+				<h2 className="mt-4 sm:text-lg text-sm"> Software developer</h2>
+				<div className="mt-4 sm:text-6xl text-4xl">
+					<IconLink link={"https://github.com/mattmazer1"} icon={faGithub} />
 
-							<IconLink
-								link={"https://www.linkedin.com/in/matt-mazer/"}
-								icon={faLinkedin}
-							/>
+					<IconLink
+						link={"https://www.linkedin.com/in/matt-mazer/"}
+						icon={faLinkedin}
+					/>
 
-							<IconLink
-								link={"mailto:mattmazerdev@gmail.com"}
-								icon={faEnvelope}
-							/>
-						</div>
-					</div>
-					<footer className="mt-2 text-sm text-gray-300">
-						Copyright © {year}, Matt Mazer
-					</footer>
+					<IconLink link={"mailto:mattmazerdev@gmail.com"} icon={faEnvelope} />
 				</div>
 			</div>
 		</>

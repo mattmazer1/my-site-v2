@@ -55,7 +55,7 @@ export default function Home() {
       <div className=" flex flex-col flex-wrap justify-center items-center sm:mt-toph mt-tops">
         <h1 className="sm:text-4xl text-3xl">Matt Mazer</h1>
 
-        <h2 className="mt-4 sm:text-lg text-sm">Platform engineer</h2>
+        <h2 className="mt-4 sm:text-lg text-sm">Cloud engineer</h2>
         <div className="mt-4 sm:text-6xl text-4xl">
           <IconLink link={"https://github.com/mattmazer1"} icon={faGithub} />
 
